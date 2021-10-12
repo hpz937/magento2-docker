@@ -12,7 +12,7 @@ console ssh requires key based authentication
 2. chown 33:33 data/magento/.ssh
 3. add your public key to .ssh/authorized_keys
 
-**** console ssh is ssh admin@server.example.com -p 222 ****
+**** ssh to console via: ssh admin@server.example.com -p 222 ****
 
 Once logged in run: n98-magerun2 db:import
 
