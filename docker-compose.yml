@@ -99,5 +99,4 @@ services:
     volumes:
       - ./data/swag:/config
       - ./config/swag/magento.subdomain.conf:/config/nginx/proxy-confs/magento.subdomain.conf
-      - ./config/swag/magento.include.conf:/config/nginx/magento.include.conf;
     restart: unless-stopped
