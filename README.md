@@ -9,5 +9,35 @@
 7. copy magento files and db backup to data/magento/web/
 
 **** ssh to console via: ssh magento@server.example.com -p 222 ****
-
-* Once logged in run: n98-magerun2 db:import
+#### Install Magento
+1. Copy existing Magento 2 files and db backup to /srv/magento/web 
+ * To import db run: n98-magerun2 db:import
+2. Or install new instance of Magento 2
+```bash
+bin/magento setup:install \
+--base-url=https://server.example.com \
+--db-host=mysql \
+--db-name=mysqlDBName \
+--db-user=mysqlUserName \
+--db-password=mysqlDBPassword \
+--admin-firstname=admin \
+--admin-lastname=admin \
+--admin-email=admin@example.com \
+--admin-user=admin \
+--admin-password=admin123 \
+--language=en_US \
+--currency=USD \
+--timezone=America/Chicago \
+--use-rewrites=1 \
+--backend-frontname=m2admin \
+--elasticsearch-host=elastic \
+--session-save=redis \
+--session-save-redis-host=redis \
+--session-save-redis-db=1 \
+--cache-backend=redis \
+--cache-backend-redis-server=redis \
+--cache-backend-redis-db=2 \
+--page-cache=redis \
+--page-cache-redis-server=redis \
+--page-cache-redis-db=3
+```
