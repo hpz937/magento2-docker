@@ -1,7 +1,7 @@
 version: '2'
 services:
   console:
-    image: hpz937/magento2-console-php74:dev-setup-user
+    image: hpz937/magento2-console-php74
     container_name: console
     volumes:
       - magento:/srv/magento  
