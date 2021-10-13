@@ -126,7 +126,7 @@ services:
       - EMAIL=${LETSENCRYPT_EMAIL}
       - MAGENTO_SERVER_DOMAIN=${SITE_URL}
     volumes:
-      - ./data/swag:/config
+      - swag:/config
       - ./config/swag/magento.subdomain.conf:/config/nginx/proxy-confs/magento.subdomain.conf
     restart: unless-stopped
 
@@ -140,4 +140,6 @@ volumes:
   magento:
     driver: local
   mysql:
+    driver: local
+  swag:
     driver: local
