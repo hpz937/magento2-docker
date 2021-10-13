@@ -1,12 +1,12 @@
 version: '2'
 services:
   console:
-    image: hpz937/magento2-console-php73 
+    image: hpz937/magento2-console-php74:dev-setup-user
     container_name: console
     volumes:
-      - ./data/magento:/srv/magento
+      - magento:/srv/magento  
     ports:
-      - 222:222 
+      - ${SSH_PORT}:222 
 
   nginx:
     image: nginx
@@ -18,18 +18,8 @@ services:
     # ports:
     #  - 80:80
     restart: unless-stopped
-    depends_on:
-      - redis
-      - mysql
-      - elastic
-      - elastic2
-      - php-fpm
-      - console
-      - varnish
-      - swag
     volumes:
-      - ./data/nginx:/config
-      - ./data/magento:/srv/magento
+      - magento:/srv/magento
       - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./config/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
       - ./config/nginx/magento.conf:/etc/nginx/magento.conf:ro
@@ -37,12 +27,15 @@ services:
   redis:
     image: redis:alpine
     container_name: redis
+    volumes:
+      - redis:/data
+    command: --save 60 1 --loglevel warning
     
   php-fpm:
-    image: hpz937/magento2-php-fpm73 
+    image: hpz937/magento2-php-fpm74 
     container_name: php-fpm
     volumes:
-      - ./data/magento:/srv/magento
+      - magento:/srv/magento
 
   mysql:
     image: mariadb:10.2
@@ -53,7 +46,7 @@ services:
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     volumes:
-      - ./data/mysql:/var/lib/mysql
+      - mysql:/var/lib/mysql
       
   elastic:
     image: elasticsearch:7.12.0
@@ -94,7 +87,7 @@ services:
     image: phpmyadmin
     restart: always
     ports:
-      - 8080:80
+      - ${PHPMYADMIN_PORT}:80
     environment:
       - PMA_HOST=mysql
 
@@ -102,8 +95,6 @@ services:
     container_name: varnish
     image: varnish
     restart: always
-    #ports:
-    #  - 80:80
     volumes:
       - ./config/varnish/varnish.vcl:/etc/varnish/default.vcl:ro
     tmpfs:
@@ -113,10 +104,19 @@ services:
     container_name: swag
     image: linuxserver/swag
     ports:
-      - 80:80
-      - 443:443
+      - ${HTTP_PORT}:80
+      - ${HTTPS_PORT}:443
     cap_add:
       - NET_ADMIN
+    depends_on:
+      - redis
+      - mysql
+      - elastic
+      - elastic2
+      - php-fpm
+      - console
+      - varnish
+      - nginx
     environment:
       - PUID=1000
       - PGID=1000
@@ -134,4 +134,10 @@ volumes:
   elastic1:
     driver: local
   elastic2:
+    driver: local
+  redis:
+    driver: local
+  magento:
+    driver: local
+  mysql:
     driver: local
