@@ -1,4 +1,2 @@
 /.env
-/data/*
-!/data/README.md
 /config/swag/magento.subdomain.conf
