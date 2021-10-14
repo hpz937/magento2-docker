@@ -34,7 +34,7 @@ services:
 
   redis-session:
     image: redis:alpine
-    container_name: redis-fpc
+    container_name: redis-session
     volumes:
       - redis-session:/data
       - ./config/redis/redis-session.conf:/usr/local/etc/redis/redis-session.conf
