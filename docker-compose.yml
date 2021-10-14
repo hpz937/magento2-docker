@@ -26,10 +26,27 @@ services:
   
   redis:
     image: redis:alpine
-    container_name: redis
+    container_name: redis-fpc
     volumes:
-      - redis:/data
-    command: --save 60 1 --loglevel warning
+      - redis-fpc:/data
+      - ./config/redis/redis-fpc.conf:/usr/local/etc/redis/redis-fpc.conf
+    command: /usr/local/etc/redis/redis-fpc.conf
+
+  redis-session:
+    image: redis:alpine
+    container_name: redis-session
+    volumes:
+      - redis-session:/data
+      - ./config/redis/redis-session.conf:/usr/local/etc/redis/redis-session.conf
+    command: /usr/local/etc/redis/redis-session.conf
+
+  redis-config-cache:
+    image: redis:alpine
+    container_name: redis-config-cache
+    volumes:
+      - redis-config-cache:/data
+      - ./config/redis/redis-config-cache.conf:/usr/local/etc/redis/redis-config-cache.conf
+    command: /usr/local/etc/redis/redis-config-cache.conf
     
   php-fpm:
     image: hpz937/magento2-php-fpm74 
@@ -135,7 +152,11 @@ volumes:
     driver: local
   elastic2:
     driver: local
-  redis:
+  redis-fpc:
+    driver: local
+  redis-session:
+    driver: local
+  redis-config-cache:
     driver: local
   magento:
     driver: local
