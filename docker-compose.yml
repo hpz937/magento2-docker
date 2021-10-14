@@ -15,8 +15,6 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=America/Chicago
-    # ports:
-    #  - 80:80
     restart: unless-stopped
     volumes:
       - magento:/srv/magento
@@ -55,7 +53,7 @@ services:
       - magento:/srv/magento
 
   mysql:
-    image: mariadb:10.2
+    image: mariadb:10.3
     container_name: mysql
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT}
@@ -66,7 +64,7 @@ services:
       - mysql:/var/lib/mysql
       
   elastic:
-    image: elasticsearch:7.12.0
+    image: elasticsearch:7.14.1
     container_name: elastic
     environment:
       - node.name=elastic
@@ -83,7 +81,7 @@ services:
       - elastic1:/usr/share/elasticsearch/data
 
   elastic2:
-    image: elasticsearch:7.12.0
+    image: elasticsearch:7.14.1
     container_name: elastic2
     environment:
       - node.name=elastic2
@@ -109,9 +107,11 @@ services:
       - PMA_HOST=mysql
 
   varnish:
-    container_name: varnish
+    container_name: varnish:6.6
     image: varnish
     restart: always
+    environment:
+      - VARNISH_SIZE=1G
     volumes:
       - ./config/varnish/varnish.vcl:/etc/varnish/default.vcl:ro
     tmpfs:
