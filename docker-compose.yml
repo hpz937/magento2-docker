@@ -128,7 +128,7 @@ services:
     depends_on:
       - redis
       - redis-session
-      - redis-cache-config
+      - redis-config-cache
       - mysql
       - elastic
       - elastic2
