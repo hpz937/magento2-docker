@@ -107,8 +107,8 @@ services:
       - PMA_HOST=mysql
 
   varnish:
-    container_name: varnish:6.6
-    image: varnish
+    container_name: varnish
+    image: varnish:6.6
     restart: always
     environment:
       - VARNISH_SIZE=1G
