@@ -127,6 +127,8 @@ services:
       - NET_ADMIN
     depends_on:
       - redis
+      - redis-session
+      - redis-cache-config
       - mysql
       - elastic
       - elastic2
