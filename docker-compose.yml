@@ -29,24 +29,24 @@ services:
     container_name: redis-fpc
     volumes:
       - redis-fpc:/data
-      - ./config/redis/redis-fpc.conf:/usr/local/etc/redis/redis-fpc.conf
-    command: /usr/local/etc/redis/redis-fpc.conf
+      - ./config/redis/page-cache/:/usr/local/etc/redis/
+    command: /usr/local/etc/redis/redis.conf
 
   redis-session:
     image: redis:alpine
     container_name: redis-session
     volumes:
       - redis-session:/data
-      - ./config/redis/redis-session.conf:/usr/local/etc/redis/redis-session.conf
-    command: /usr/local/etc/redis/redis-session.conf
+      - ./config/redis/session/:/usr/local/etc/redis/
+    command: /usr/local/etc/redis/redis.conf
 
   redis-config-cache:
     image: redis:alpine
     container_name: redis-config-cache
     volumes:
       - redis-config-cache:/data
-      - ./config/redis/redis-config-cache.conf:/usr/local/etc/redis/redis-config-cache.conf
-    command: /usr/local/etc/redis/redis-config-cache.conf
+      - ./config/redis/config-cache/:/usr/local/etc/redis/
+    command: /usr/local/etc/redis/redis.conf
     
   php-fpm:
     image: hpz937/magento2-php-fpm74 
